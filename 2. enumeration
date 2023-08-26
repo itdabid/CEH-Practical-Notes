@@ -1,0 +1,94 @@
+FTP Enumeration:
+
+[Brute Force FTP] hydra -L /usr/share/wordlists/metasploit/common_users.txt -P /usr/share/wordlists/metasploit/unix_password.txt 192.168.48.* ftp
+
+[connect ftp] ftp 192.168.48.*
+
+ftp> get secret.txt [file will be copy to local machine]
+
+
+SNMP Enumeration:
+
+tools:  nmap, snmp-check, metasploit
+need to find: default UDP port used by snmp, 
+
+nmap -sU 192.168.48.0/24
+[find snmp host using this scan]
+
+snmp-check 192.168.48.0
+[find snmp listening UDP local port from this scan]
+
+identify processes running on the target machine using namp scripts:---
+[run snmp-process nmap script to enumeration snmp process]
+
+nmap -sU -P 161 --script=snmp-processes <target-IP>
+
+List valid community strings of the server using snmp_login metasploit module::--
+> msfconsole
+> search snmp
+> use auxuliary/scanner/snmp/snmp_login
+> show options
+> set RHOSTS <HOST_IP>
+> exploit
+
+
+List all the interface of the machiine using namp scripts:----
+nmap -sU -P 161 --script=snmp-interfaces <target-IP>
+
+
+SMB Enumeration:
+Network file sharing protocol that allows applications on a computer to read & write to files:---
+
+[set target IP]
+> namp <target_IP>
+> nmap -p 445 --script=smb-enum-shares <target-IP>
+> nmap -p 445 --script=smb-enum-users --script-args smbusername=administrator,smbpassword=smbserver_771<target-IP>
+> nmap -p 445 --script=smb-enum-groups --script-args smbusername=administrator,smbpassword=smbserver_771<target-IP>
+> nmap -sC -sV -A -T4 p445 <target-IP>  [find smb-security-mode]
+> nmap -p 445 --script=smb-enum-services --script-args smbusername=administrator,smbpassword=smbserver_771<target-IP>
+
+
+request services from server programs in a computer network:---
+
+
+Exploiting RDP services/ Enumeration:--
+RDP port: 3389
+
+check running services on the target and confirm RDP is running
+use metasploit to confirm the services running is RDP
+use hydra to brute force the login credentials
+use RDP tools to login into the target machine
+
+> nmap <target_IP>
+> msfconsole -q
+> msf5 > search rdp
+> msf5 > use auxuliary/scanner/rdp/rdp_scanner
+> msf5 > show options
+> msf5 > set RHOSTS
+> msf5 >  set RPORT 3333
+> msf5 > exploit
+
+
+use hydra to brute force:
+
+hydra -L /usr/share/metasploit-framework/data/wordlists/common_users.txt -P /usr/share/metasploit-framework/data/wordlists/unix_password.txt rdp://<Target_IP> -s 3333
+
+
+using xfreerdp to create RDP session:
+> xfreerdp /u:administrator /p:<password> /v:<Target_IP>:port[3333]
+
+
+
+NetBIOS Enumeration::: port - 137/138/139
+
+NBName: 137/UDP
+NBName: 137/TCP
+NBDatagram: 138/UDP
+NBSession: 139/TCP
+
+> namp -sV --script=nbstat.nse <Target_IP>
+
+
+
+
+
