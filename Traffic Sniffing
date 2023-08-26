@@ -1,0 +1,10 @@
+
+
+find dos attack on wireshark
+
+filter rule: DOS
+tcp.flags.syn==1 and tcp.flags.ack==0
+
+filter rule: DDOS
+tcp.flags.syn==1 and tcp.flags.ack==1
+
