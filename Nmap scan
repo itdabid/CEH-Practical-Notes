@@ -1,0 +1,65 @@
+[ scan net with Live host --ping sweep] nmap -sP 192.168.48.0/24
+[ scan net with Live host without port scan in same subnet (APR scan)] nmap -PR -sn 192.168.48.0/24
+[ scan net with Script + Version running on target machine] nmap -sC -sV 192.168.48.0/24
+[ scan net for OS delection] sudo nmap -O 192.168.48.0/24
+[ scan net with agressive scan] nmap -A 192.168.48/24
+[ scan net with Live host] nmap --script=smb-vuln* -p <port> 192.168.48.0/24
+[ scan net with Script + versions + ports +  OS scan + ] nmap -sC -sV -p- -A -v -T4 192.168.48.0/24
+
+[scan result write to file --'results'] nmap 192.168.1.1 -oA results 
+
+
+Scanning Networks
+Task1: Host discovery
+- nmap -sn -PR [IP]
+- -sn: Disable port scan
+- -PR: ARP ping scan
+- nmap -sn -PU [IP]
+- -PU: UDP ping scan
+- nmap -sn -PE [IP or IP Range]
+- -PE: ICMP ECHO ping scan
+- nmap -sn -PP [IP]
+- -PP: ICMP timestamp ping scan
+- nmap -sn -PM [IP]
+- -PM: ICMP address mask ping scan
+- nmap -sn -PS [IP]
+- -PS: TCP SYN Ping scan
+- nmap -sn -PA [IP]
+- -PA: TCP ACK Ping scan
+- nmap -sn -PO [IP]
+- -PO: IP Protocol Ping scan
+
+Task3: Port and Service Discovery
+- nmap -sT -v [IP]
+- -sT: TCP connect/full open scan
+- -v: Verbose output
+- nmap -sS -v [IP]
+- -sS: Stealth scan/TCP hall-open scan
+- nmap -sX -v [IP]
+- -sX: Xmax scan
+- nmap -sM -v [IP]
+- -sM: TCP Maimon scan
+- nmap -sA -v [IP]
+- -sA: ACK flag probe scan
+- nmap -sU -v [IP]
+- -sU: UDP scan
+- nmap -sI -v [IP]
+- -sI: IDLE/IPID Header scan
+- nmap -sY -v [IP]
+- -sY: SCTP INIT Scan
+- nmap -sZ -v [IP]
+- -sZ: SCTP COOKIE ECHO Scan
+- nmap -sV -v [IP]
+- -sV: Detect service versions
+- nmap -A -v [IP]
+- -A: Aggressive scan
+
+Task2: OS Discovery
+- nmap -A -v [IP]
+- -A: Aggressive scan
+- nmap -O -v [IP]
+- -O: OS discovery
+- nmap –script=smb-os-discovery.nse [IP]
+- -–script: Specify the customized script
+- smb-os-discovery.nse: Determine the OS, computer name, domain, workgroup, and current time over the SMB protocol (Port 445 or
+139)
