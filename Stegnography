@@ -1,0 +1,10 @@
+tools: 
+snow https://github.com/mattkwan-zz/snow  
+Openstego https://github.com/syvaidya/openstego/releases 
+covert TCP  https://github.com/zaheercena/Covert-TCP-IP-Protocol/tree/master
+
+
+command to show secret text:
+> snow.exe -C -p <password> -f <File_name.txt>
+> 
+
